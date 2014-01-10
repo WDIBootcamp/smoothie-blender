@@ -27,19 +27,19 @@ smoothie_ingredients = {
 class Blender
 
   # on and off switch and only allow the blender to function when on
-  switch = false
-
+  
+  attr_accessor :smoothie_ingredients, :switch
   def initialize(smoothie_ingredients)
     # save this instance of the variable for good
     @smoothie_ingredients = smoothie_ingredients
+    @switch = false
 
   end
 
   def start()
-    curr_smoothie_ingredients = @smoothie_ingredients
-
     if switch_on()
-      blend(curr_smoothie_ingredients)
+      puts "I am going to blend all your ingredients!"
+      blend()
     else
       puts "We'll blend some other time!"
     end
@@ -51,25 +51,28 @@ class Blender
     puts "Do you want your blender [on] or [off]?"
     switch_mode = gets.chomp
     case switch_mode
-      when "on" then switch = true
-      else switch = false
+      when "on" then @switch = true
+      else @switch = false
     end
-    return switch
+    return @switch
 
   end
 
   # accepts one variable: an array of ingredients
   # returns a mixed string of characters 
-  def blend(smoothie_ingredients)
+  def blend
     # grabs the keys (an array of words), turns in a single string, deletes the spaces,
     # turns into an array of letters, then shuffles
-    blended_ingredients = smoothie_ingredients.keys.join("").delete(" ").split("").shuffle
+    if @switch
+    blended_ingredients = @smoothie_ingredients.keys.join("").delete(" ").split("").shuffle
     p blended_ingredients
-    
+    else
+     puts "Your Blender is off." switch_on
   end
 
 end
 
 make_smoothie = Blender.new(smoothie_ingredients)
+# make_smoothie.switch = true 
 make_smoothie.start()
 
